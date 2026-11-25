@@ -18,6 +18,11 @@ if (LABEL.length < 1 || LABEL.length > 160) {
 if (LABEL.includes("\n") || LABEL.trim().length === 0) {
   throw new Error("label must be a single non-blank line");
 }
+// Label-form check: a real warning label opens with its signal word and
+// ends on the punch, so the line must start with "WARNING:" and end with ".".
+if (!LABEL.startsWith("WARNING:") || !LABEL.endsWith(".")) {
+  throw new Error("label must open with WARNING: and end with a full stop");
+}
 
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", LABEL, "utf8");
